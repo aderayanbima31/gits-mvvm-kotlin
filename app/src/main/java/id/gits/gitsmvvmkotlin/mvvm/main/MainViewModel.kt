@@ -2,9 +2,12 @@ package id.gits.gitsmvvmkotlin.mvvm.main
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableList
 import android.support.annotation.StringRes
+import android.util.Log
+import com.google.gson.Gson
 import id.gits.gitsmvvmkotlin.R
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
@@ -17,12 +20,10 @@ import id.gits.gitsmvvmkotlin.util.SingleLiveEvent
 
 class MainViewModel(context: Application, private val gitsRepository: GitsRepository) : AndroidViewModel(context) {
 
-    val movieList: ObservableList<Movie> = ObservableArrayList()
-
+    var movieListLive = MutableLiveData<List<Movie>>()
     val snackBarMessageRemote = SingleLiveEvent<String>()
-
     val snackBarMessage = SingleLiveEvent<Int>()
-
+    var showProgress = MutableLiveData<Boolean>()
     internal val openDetailMovie = SingleLiveEvent<Movie>()
 
     //==============================================================================================
@@ -31,18 +32,26 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
      * Call this function for first init
      */
     fun start() {
-        getMovies()
+        val isRemote = true
+
+        getMovies(isRemote)
     }
 
     /**
      * Get movie list from API
      */
-    private fun getMovies() {
+    private fun getMovies(isRemote: Boolean) {
+//        showProgress.value = true
+
+        if (isRemote) {
+            gitsRepository.remoteMovie(isRemote)
+        }
+
         gitsRepository.getMovies(object : GitsDataSource.GetMoviesCallback {
             override fun onMoviesLoaded(movies: List<Movie>?) {
-                with(movieList) {
-                    clear()
-                    addAll(movies!!)
+                if (movies != null) {
+                    movieListLive.postValue(movies)
+//                    showProgress.value = false
                 }
             }
 
@@ -55,7 +64,6 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
                     showSnackbarMessage(errorMessage)
                 }
             }
-
         })
     }
 

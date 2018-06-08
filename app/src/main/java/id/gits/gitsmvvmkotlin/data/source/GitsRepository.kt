@@ -1,5 +1,7 @@
 package id.gits.gitsmvvmkotlin.data.source
 
+import android.util.Log
+import com.google.gson.Gson
 import id.gits.gitsmvvmkotlin.data.model.Movie
 
 /**
@@ -9,25 +11,53 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 open class GitsRepository(val remoteDataSource: GitsDataSource,
                           val localDataSource: GitsDataSource) : GitsDataSource {
 
-    override fun saveMovieId(movieId: String) {
+    var isRemote = false
 
-        remoteDataSource.saveMovieId(movieId)
-
-        localDataSource.saveMovieId(movieId)
-
+    override fun remoteMovie(isRemote: Boolean) {
+        this.isRemote = isRemote
     }
 
-    override fun getMovieId(): String {
-
-        return localDataSource.getMovieId()
-
+    override fun saveMovie(movie: Movie) {
+        localDataSource.saveMovie(movie)
     }
 
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
+        if (isRemote) {
+            getRemoteMovieSource(callback)
+        }
+    }
 
+    private fun getRemoteMovieSource(callback: GitsDataSource.GetMoviesCallback) {
         remoteDataSource.getMovies(object : GitsDataSource.GetMoviesCallback {
             override fun onMoviesLoaded(movies: List<Movie>?) {
-                callback.onMoviesLoaded(movies)
+                if (movies!!.isNotEmpty()) {
+                    var j = 0
+
+                    for (i in 0 until movies.size) {
+                        j = i
+
+                        localDataSource.saveMovie(Movie(movies[i].vote_count, movies[i].id, movies[i].isVideo,
+                                movies[i].vote_average, movies[i].title, movies[i].popularity, movies[i].poster_path,
+                                movies[i].original_language, movies[i].original_title, movies[i].backdrop_path,
+                                movies[i].isAdult, movies[i].overview, movies[i].release_date))
+
+                        if (j == movies.size - 1){
+                            localDataSource.getMovies(object : GitsDataSource.GetMoviesCallback {
+                                override fun onMoviesLoaded(movies: List<Movie>?) {
+                                    callback.onMoviesLoaded(movies)
+                                }
+
+                                override fun onDataNotAvailable() {
+                                    callback.onDataNotAvailable()
+                                }
+
+                                override fun onError(errorMessage: String?) {
+                                    callback.onError(errorMessage)
+                                }
+                            })
+                        }
+                    }
+                }
             }
 
             override fun onDataNotAvailable() {
@@ -38,7 +68,6 @@ open class GitsRepository(val remoteDataSource: GitsDataSource,
                 callback.onError(errorMessage)
             }
         })
-
     }
 
     companion object {

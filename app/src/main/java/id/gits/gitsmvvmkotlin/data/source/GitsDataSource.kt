@@ -8,22 +8,11 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 
 interface GitsDataSource {
 
-    /**
-     * This sample function for save movie id to preference
-     * @param movieId
-     */
-    fun saveMovieId(movieId: String)
-
-    /**
-     * This sample function for getting movie id from preference
-     */
-    fun getMovieId(): String
-
-    /**
-     * Get all movie list
-     * @param callback
-     */
     fun getMovies(callback: GetMoviesCallback)
+
+    fun saveMovie(movie: Movie)
+
+    fun remoteMovie(isRemote: Boolean)
 
     interface GetMoviesCallback {
 

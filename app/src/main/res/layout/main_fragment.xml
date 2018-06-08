@@ -11,11 +11,21 @@
             type="id.gits.gitsmvvmkotlin.mvvm.main.MainViewModel" />
     </data>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_main"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="LinearLayoutManager"
-        app:movieList="@{viewModel.movieList}" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:movieList="@{viewModel.movieListLive}" />
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"/>
+    </RelativeLayout>
 </layout>

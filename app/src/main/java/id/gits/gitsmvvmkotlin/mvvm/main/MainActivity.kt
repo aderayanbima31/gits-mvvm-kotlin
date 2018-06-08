@@ -10,10 +10,9 @@ import id.gits.gitsmvvmkotlin.base.BaseActivity
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.util.obtainViewModel
 import id.gits.gitsmvvmkotlin.util.replaceFragmentInActivity
+import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : BaseActivity(), MainItemUserActionListener {
-
-    private lateinit var toolbar: Toolbar
 
     private lateinit var viewModel: MainViewModel
 
@@ -22,19 +21,18 @@ class MainActivity : BaseActivity(), MainItemUserActionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
         setupToolbar()
-
         setupFragment()
-
         setupViewModel()
-
     }
 
     /**
      * Do setup toolbar app
      */
-    private fun setupToolbar() {}
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        txt_toolbar_title.text = "CGV Movie Update"
+    }
 
     /**
      * Do setup fragment main view

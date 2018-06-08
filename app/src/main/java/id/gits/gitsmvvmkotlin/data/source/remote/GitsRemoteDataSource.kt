@@ -1,5 +1,8 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
+import android.util.Log
+import com.google.gson.Gson
+import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,22 +13,17 @@ import io.reactivex.schedulers.Schedulers
 
 object GitsRemoteDataSource : GitsDataSource {
 
+    override fun remoteMovie(isRemote: Boolean) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveMovie(movie: Movie) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private val apiService = GitsApiService.create()
 
-    private lateinit var movieId: String
-
-    //==============================================================================================
-
-    override fun saveMovieId(movieId: String) {
-        this.movieId = movieId
-    }
-
-    override fun getMovieId(): String {
-        return movieId
-    }
-
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
-
         apiService.getMovies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -40,6 +38,5 @@ object GitsRemoteDataSource : GitsDataSource {
                 }, { error ->
                     callback.onError(error.message)
                 })
-
     }
 }

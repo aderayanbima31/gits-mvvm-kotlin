@@ -1,8 +1,8 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
+import id.gits.gitsmvvmkotlin.BuildConfig
 import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
-import id.gits.gitsmvvmkotlin.util.Network
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +27,6 @@ interface GitsApiService {
     companion object Factory {
 
         fun create(): GitsApiService {
-
             val mLoggingInterceptor = HttpLoggingInterceptor()
             mLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -37,14 +36,8 @@ interface GitsApiService {
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .build()
 
-            /**
-             * Un-comment when unit test
-             */
-//            val resource = OkHttp3IdlingResource.create("OkHttp", client)
-//            IdlingRegistry.getInstance().register(resource)
-
             val mRetrofit = Retrofit.Builder()
-                    .baseUrl(Network.API_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(mClient) //Todo comment if app release

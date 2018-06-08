@@ -1,24 +1,43 @@
 package id.gits.gitsmvvmkotlin.data.source.local
 
-import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
+import android.util.Log
+import com.google.gson.Gson
+import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
-import id.gits.gitsmvvmkotlin.util.Preference
+import id.gits.gitsmvvmkotlin.data.source.local.movie.MovieDao
+import id.gits.gitsmvvmkotlin.util.dbhelper.AppExecutors
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
  */
 
-class GitsLocalDataSource private constructor(private val preferences: SharedPreferences) : GitsDataSource {
+class GitsLocalDataSource private constructor(val appExecutors: AppExecutors,
+                                              val movieDao: MovieDao) : GitsDataSource {
 
-    override fun saveMovieId(movieId: String) {
-        preferences.edit().putString(Preference.KEY, movieId)
+    override fun remoteMovie(isRemote: Boolean) {
+        // Not required because the {@link GitsRepository} handles the logic of refreshing the
+        // tasks from all the available data sources.
     }
 
-    override fun getMovieId(): String = preferences.getString(Preference.KEY, "")
+    override fun saveMovie(movie: Movie) {
+        appExecutors.diskIO.execute {
+            movieDao.insertMovie(movie)
+        }
+    }
 
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        appExecutors.diskIO.execute {
+            val movies = movieDao.getAllMovies()
+
+            appExecutors.mainThread.execute {
+                if (movies.isEmpty()){
+                    callback.onError("Data movie tidak ditemukan")
+                } else {
+                    callback.onMoviesLoaded(movies)
+                }
+            }
+        }
     }
 
     companion object {
@@ -26,10 +45,10 @@ class GitsLocalDataSource private constructor(private val preferences: SharedPre
         private var INSTANCE: GitsLocalDataSource? = null
 
         @JvmStatic
-        fun getInstance(preferences: SharedPreferences): GitsLocalDataSource {
+        fun getInstance(appExecutors: AppExecutors, movieDao: MovieDao): GitsLocalDataSource {
             if (INSTANCE == null) {
                 synchronized(GitsLocalDataSource::javaClass) {
-                    INSTANCE = GitsLocalDataSource(preferences)
+                    INSTANCE = GitsLocalDataSource(appExecutors, movieDao)
                 }
             }
             return INSTANCE!!
