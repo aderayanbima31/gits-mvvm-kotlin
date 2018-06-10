@@ -7,7 +7,7 @@ import android.content.Context
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.local.movie.MovieDao
 
-@Database(entities = [(Movie::class)], version = 1)
+@Database(entities = [(Movie::class)], version = 2)
 abstract class GitsAppDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao

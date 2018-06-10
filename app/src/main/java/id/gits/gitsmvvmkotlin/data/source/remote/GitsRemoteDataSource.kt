@@ -13,14 +13,6 @@ import io.reactivex.schedulers.Schedulers
 
 object GitsRemoteDataSource : GitsDataSource {
 
-    override fun remoteMovie(isRemote: Boolean) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun saveMovie(movie: Movie) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     private val apiService = GitsApiService.create()
 
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
@@ -38,5 +30,17 @@ object GitsRemoteDataSource : GitsDataSource {
                 }, { error ->
                     callback.onError(error.message)
                 })
+    }
+
+    override fun getMovieById(movieId: Int, callback: GitsDataSource.GetMoviesByIdCallback) {
+        // Tidak digunakan
+    }
+
+    override fun remoteMovie(isRemote: Boolean) {
+        // Tidak digunakan
+    }
+
+    override fun saveMovie(movie: Movie) {
+        // Tidak digunakan
     }
 }

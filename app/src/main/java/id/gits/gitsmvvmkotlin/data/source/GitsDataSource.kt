@@ -10,16 +10,22 @@ interface GitsDataSource {
 
     fun getMovies(callback: GetMoviesCallback)
 
+    fun getMovieById(movieId: Int, callback: GetMoviesByIdCallback)
+
     fun saveMovie(movie: Movie)
 
     fun remoteMovie(isRemote: Boolean)
 
     interface GetMoviesCallback {
-
         fun onMoviesLoaded(movies: List<Movie>?)
 
         fun onDataNotAvailable()
 
+        fun onError(errorMessage: String?)
+    }
+
+    interface GetMoviesByIdCallback {
+        fun onMovieLoaded(movie: Movie)
         fun onError(errorMessage: String?)
     }
 }

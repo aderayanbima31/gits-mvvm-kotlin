@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import id.gits.gitsmvvmkotlin.data.source.GitsRepository
 import id.gits.gitsmvvmkotlin.mvvm.main.MainViewModel
+import id.gits.gitsmvvmkotlin.mvvm.maindetail.MainDetailViewModel
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
@@ -22,6 +23,8 @@ class ViewModelFactory private constructor(
                 when {
                     isAssignableFrom(MainViewModel::class.java) ->
                         MainViewModel(mApplication, gitsRepository)
+                    isAssignableFrom(MainDetailViewModel::class.java) ->
+                        MainDetailViewModel(mApplication, gitsRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

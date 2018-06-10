@@ -24,6 +24,8 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
     val snackBarMessageRemote = SingleLiveEvent<String>()
     val snackBarMessage = SingleLiveEvent<Int>()
     var showProgress = MutableLiveData<Boolean>()
+    var movieId = MutableLiveData<Int>()
+
     internal val openDetailMovie = SingleLiveEvent<Movie>()
 
     //==============================================================================================
@@ -37,11 +39,19 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
         getMovies(isRemote)
     }
 
+    fun setMovieId(id: Int){
+        movieId.value = id
+    }
+
+    fun getMovieIds() : MutableLiveData<Int> {
+        return movieId
+    }
+
     /**
      * Get movie list from API
      */
     private fun getMovies(isRemote: Boolean) {
-//        showProgress.value = true
+        showProgress.value = true
 
         if (isRemote) {
             gitsRepository.remoteMovie(isRemote)
@@ -51,7 +61,7 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
             override fun onMoviesLoaded(movies: List<Movie>?) {
                 if (movies != null) {
                     movieListLive.postValue(movies)
-//                    showProgress.value = false
+                    showProgress.value = false
                 }
             }
 

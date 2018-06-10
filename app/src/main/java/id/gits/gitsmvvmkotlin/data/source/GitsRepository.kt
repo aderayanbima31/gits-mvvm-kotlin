@@ -27,6 +27,18 @@ open class GitsRepository(val remoteDataSource: GitsDataSource,
         }
     }
 
+    override fun getMovieById(movieId: Int, callback: GitsDataSource.GetMoviesByIdCallback) {
+        localDataSource.getMovieById(movieId, object : GitsDataSource.GetMoviesByIdCallback{
+            override fun onMovieLoaded(movie: Movie) {
+                callback.onMovieLoaded(movie)
+            }
+
+            override fun onError(errorMessage: String?) {
+                callback.onError(errorMessage)
+            }
+        })
+    }
+
     private fun getRemoteMovieSource(callback: GitsDataSource.GetMoviesCallback) {
         remoteDataSource.getMovies(object : GitsDataSource.GetMoviesCallback {
             override fun onMoviesLoaded(movies: List<Movie>?) {

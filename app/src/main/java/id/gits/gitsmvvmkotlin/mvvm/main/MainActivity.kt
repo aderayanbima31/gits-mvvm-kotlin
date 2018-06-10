@@ -2,12 +2,15 @@ package id.gits.gitsmvvmkotlin.mvvm.main
 
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.widget.Toast
 import id.gits.gitsmvvmkotlin.R
 import id.gits.gitsmvvmkotlin.base.BaseActivity
 import id.gits.gitsmvvmkotlin.data.model.Movie
+import id.gits.gitsmvvmkotlin.mvvm.maindetail.MainDetailActivity
+import id.gits.gitsmvvmkotlin.util.AppHelper
 import id.gits.gitsmvvmkotlin.util.obtainViewModel
 import id.gits.gitsmvvmkotlin.util.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.toolbar.*
@@ -44,7 +47,7 @@ class MainActivity : BaseActivity(), MainItemUserActionListener {
         }
     }
 
-    private fun setupViewModel(){
+    private fun setupViewModel() {
         viewModel = obtainViewModel().apply {
 
             openDetailMovie.observe(this@MainActivity, Observer { movie ->
@@ -54,7 +57,10 @@ class MainActivity : BaseActivity(), MainItemUserActionListener {
     }
 
     override fun onMovieClicked(movie: Movie) {
-        Toast.makeText(mActiviy, movie.original_title, Toast.LENGTH_SHORT).show()
+        var intent = Intent(this@MainActivity, MainDetailActivity::class.java)
+        intent.putExtra("movieId", movie.id!!)
+
+        startActivity(intent)
     }
 
     fun obtainViewModel(): MainViewModel = obtainViewModel(MainViewModel::class.java)

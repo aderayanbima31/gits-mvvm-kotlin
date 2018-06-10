@@ -15,6 +15,20 @@ import id.gits.gitsmvvmkotlin.util.dbhelper.AppExecutors
 class GitsLocalDataSource private constructor(val appExecutors: AppExecutors,
                                               val movieDao: MovieDao) : GitsDataSource {
 
+    override fun getMovieById(movieId: Int, callback: GitsDataSource.GetMoviesByIdCallback) {
+        appExecutors.diskIO.execute {
+            val movies = movieDao.getMovieById(movieId)
+
+            appExecutors.mainThread.execute {
+                if (movies == null){
+                    callback.onError("Data movie tidak ditemukan")
+                } else {
+                    callback.onMovieLoaded(movies)
+                }
+            }
+        }
+    }
+
     override fun remoteMovie(isRemote: Boolean) {
         // Not required because the {@link GitsRepository} handles the logic of refreshing the
         // tasks from all the available data sources.
