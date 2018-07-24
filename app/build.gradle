@@ -7,52 +7,58 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    def date = new Date()
-    def formattedDate = date.format('ddMMyyyy')
-    def appName = "sample_app"
-
-    compileSdkVersion 26
+    compileSdkVersion configVersion.sdk
     defaultConfig {
         applicationId "id.gits.gitsmvvmkotlin"
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion configVersion.minSdk
+        targetSdkVersion configVersion.sdk
+        versionCode configVersion.code
+        versionName configVersion.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
     signingConfigs {
         released {
+            // TODO: Check for your own environment, and set the password env with ur own pass
             storeFile file("${rootDir}/generalkey.jks")
-            storePassword "12345678"
+            storePassword System.getenv("PASSWORD")
             keyAlias "12345678"
-            keyPassword "12345678"
+            keyPassword System.getenv("PASSWORD")
         }
     }
+
     sourceSets {
         String sharedTestDir = 'src/sharedTest/java'
+
         test {
             java.srcDir sharedTestDir
         }
+
         androidTest {
             java.srcDir sharedTestDir
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/"'
         }
+
         debug {
             buildConfigField "String", "BASE_URL", '"https://google.com"'
         }
+
         stagging {
             buildConfigField "String", "BASE_URL", '"https://youtube.com"'
         }
     }
+
     flavorDimensions "default"
     productFlavors {
         prod {
@@ -68,66 +74,81 @@ android {
             applicationIdSuffix ".stagging"
         }
     }
+
     applicationVariants.all { variant ->
         if (variant.buildType.name == 'release') {
             variant.mergedFlavor.versionName = android.defaultConfig.versionName
         }
+
         if (variant.buildType.name == 'debug') {
             variant.mergedFlavor.versionName = android.defaultConfig.versionName
         }
+
         if (variant.buildType.name == 'stagging') {
             variant.mergedFlavor.versionName = android.defaultConfig.versionName
         }
     }
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${appName}-${variant.versionName}-${formattedDate}-${variant.flavorName}.apk"
         }
     }
+
     dataBinding {
         enabled = true
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/java/mock'] } }
 }
 
 dependencies {
-    // Support Library Dependencies
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    implementation "android.arch.persistence.room:runtime:$rootProject.archRoomVersion"
-//    implementation "android.arch.persistence.room:rxjava2:$rootProject.archRoomVersion" // Jika menggunakan async concept
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.archRoomVersion"
-    kapt "android.arch.persistence.room:compiler:$rootProject.archRoomVersion"
+    // Support Library Dependencies
+    implementation supportDependencies.kotlin
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.design
+    implementation supportDependencies.recyclerView
+    implementation supportDependencies.cardView
+    implementation supportDependencies.constraintLayout
 
-    implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
-    implementation "android.arch.lifecycle:common-java8:$rootProject.archLifecycleVersion"
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.loggingInterceptorVersion"
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxJava2AndroidVersion"
-    implementation "com.facebook.stetho:stetho:$rootProject.stethoVersion"
+    // Arch Lifecycle
+    implementation googleLibraries.archRoomRuntime
+    kapt googleLibraries.archRoomComp
+    annotationProcessor googleLibraries.archRoomComp
+    implementation googleLibraries.archRoomRx
+    implementation googleLibraries.archLcExt
+    implementation googleLibraries.archLcJava
 
-    kapt "com.android.databinding:compiler:$rootProject.gradleVersion"
+    // Data Binding
+    implementation googleLibraries.dataBinding
 
-    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+    // Network
+    implementation libraries.retrofit
+    implementation libraries.retrofitRx2
+    implementation libraries.retrofitGson
+    implementation libraries.okhttp
+    implementation libraries.okhttpLogging
+    implementation libraries.rxAndroid
 
-    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    // Image
+    implementation libraries.glide
+    kapt libraries.glideCompiler
 
-    // Dependencies for local unit tests
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    testImplementation "org.mockito:mockito-core:$rootProject.ext.mockitoVersion"
+    // Utils
+    implementation libraries.stetho
+    implementation libraries.calligraphy
+
+    // Test Libraries
+    implementation testLibraries.junit
+    implementation testLibraries.junitRunner
+    implementation testLibraries.espressoCore
+    implementation testLibraries.mockito
+    implementation testLibraries.mockitoKotlin
 }
