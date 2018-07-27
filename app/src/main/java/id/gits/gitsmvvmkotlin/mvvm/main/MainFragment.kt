@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.gits.gitsmvvmkotlin.base.BaseFragment
-import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainFragmentBinding
 
 /**
@@ -20,7 +19,7 @@ class MainFragment : BaseFragment() {
 
     //==============================================================================================
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = MainFragmentBinding.inflate(inflater!!, container, false).apply {
             viewModel = (activity as MainActivity).obtainViewModel()
         }
@@ -31,7 +30,6 @@ class MainFragment : BaseFragment() {
         }
 
         return viewBinding.root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

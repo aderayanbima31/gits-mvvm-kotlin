@@ -28,7 +28,7 @@ abstract class ApiCallback<M>: Observer<M> {
         onSuccess(t)
     }
 
-    override fun onSubscribe(d: Disposable?) {
+    override fun onSubscribe(d: Disposable) {
 
     }
 
