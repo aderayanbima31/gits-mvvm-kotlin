@@ -34,8 +34,8 @@ ext {
     // TODO: Change this according to QA standardization
     // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
     configVersion = [
-            code  : 1008087,
-            name  : "1.8.87",
+            code  : 1000000,
+            name  : "1.0.0",
             sdk   : 26,
             minSdk: 16
     ]
