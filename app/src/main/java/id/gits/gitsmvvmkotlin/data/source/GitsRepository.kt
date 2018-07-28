@@ -1,15 +1,15 @@
 package id.gits.gitsmvvmkotlin.data.source
 
-import android.util.Log
-import com.google.gson.Gson
 import id.gits.gitsmvvmkotlin.data.model.Movie
+import id.gits.gitsmvvmkotlin.data.source.local.GitsLocalDataSource
+import id.gits.gitsmvvmkotlin.data.source.remote.GitsRemoteDataSource
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
  */
 
-open class GitsRepository(val remoteDataSource: GitsDataSource,
-                          val localDataSource: GitsDataSource) : GitsDataSource {
+open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
+                          val localDataSource: GitsLocalDataSource) : GitsDataSource {
 
     var isRemote = false
 
@@ -94,7 +94,7 @@ open class GitsRepository(val remoteDataSource: GitsDataSource,
          * @return the [GitsRepository] instance
          */
         @JvmStatic
-        fun getInstance(gitsRemoteDataSource: GitsDataSource, gitsLocalDataSource: GitsDataSource) =
+        fun getInstance(gitsRemoteDataSource: GitsRemoteDataSource, gitsLocalDataSource: GitsLocalDataSource) =
                 INSTANCE ?: synchronized(GitsRepository::class.java) {
                     INSTANCE ?: GitsRepository(gitsRemoteDataSource, gitsLocalDataSource)
                             .also { INSTANCE = it }

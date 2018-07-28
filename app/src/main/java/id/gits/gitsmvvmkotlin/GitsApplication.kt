@@ -10,6 +10,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
  * Created by irfanirawansukirman on 26/01/18.
  */
 
+// TODO: Change all Gits occurrences into -> AppName (clients)
 class GitsApplication : Application() {
 
     override fun onCreate() {
