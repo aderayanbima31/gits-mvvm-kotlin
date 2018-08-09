@@ -32,10 +32,10 @@ ext {
     appName = "APPNAME"
 
     // TODO: Change this according to QA standardization
-    // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
+    // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds, Build number -> tens. E.g 1.3.72#10 == 1,003,072,10
     configVersion = [
-            code  : 1000000,
-            name  : "1.0.0",
+            code  : 100000010,
+            name  : "1.0.0#10",
             sdk   : 26,
             minSdk: 16
     ]
