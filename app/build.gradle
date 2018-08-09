@@ -127,7 +127,7 @@ dependencies {
     implementation googleLibraries.archLcJava
 
     // Data Binding
-    implementation googleLibraries.dataBinding
+    kapt googleLibraries.dataBinding
 
     // Network
     implementation libraries.retrofit

@@ -1,5 +1,5 @@
 ext {
-    gradleVersion = "3.0.1"
+    gradleVersion = "3.1.0"
     supportLibraryVersion = '26.1.0'
     constraintLayoutVersion = '1.0.2'
     espressoCoreVersion = '2.2.2'
