@@ -5,6 +5,7 @@ package id.gits.gitsmvvmkotlin.base
  */
 
 data class BaseApiModel<T>(
+        var message: String? = null,
         var page: Int,
         var total_results: Int,
         var total_pages: Int,

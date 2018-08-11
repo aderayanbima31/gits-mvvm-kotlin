@@ -51,7 +51,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", '"https://google.com"'
+            buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/"'
         }
 
         stagging {
@@ -113,6 +113,7 @@ dependencies {
     // Support Library Dependencies
     implementation supportDependencies.kotlin
     implementation supportDependencies.appCompat
+    implementation supportDependencies.support
     implementation supportDependencies.design
     implementation supportDependencies.recyclerView
     implementation supportDependencies.cardView
@@ -138,7 +139,9 @@ dependencies {
     implementation libraries.rxAndroid
 
     // Image
-    implementation libraries.glide
+    implementation(libraries.glide) {
+        exclude group: "com.android.support"
+    }
     kapt libraries.glideCompiler
 
     // Utils

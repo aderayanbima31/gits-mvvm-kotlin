@@ -1,7 +1,6 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
-import android.util.Log
-import com.google.gson.Gson
+import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,16 +18,18 @@ object GitsRemoteDataSource : GitsDataSource {
         apiService.getMovies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ results ->
-                    run {
-                        if (results.results!!.isNotEmpty()) {
-                            callback.onMoviesLoaded(results.results)
-                        } else {
-                            callback.onDataNotAvailable()
-                        }
+                .subscribe(object : ApiCallback<BaseApiModel<List<Movie>>>() {
+                    override fun onSuccess(model: BaseApiModel<List<Movie>>) {
+                        callback.onMoviesLoaded(model.results)
                     }
-                }, { error ->
-                    callback.onError(error.message)
+
+                    override fun onFailure(code: Int, errorMessage: String) {
+                        callback.onError("$code: $errorMessage")
+                    }
+
+                    override fun onFinish() {
+                        // TODO: nothing?
+                    }
                 })
     }
 
