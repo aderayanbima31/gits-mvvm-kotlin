@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyRaisedButton" parent="Widget.AppCompat.Button.Colored">
+        <!-- For custom color background n' color pressed -->
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
+    <style name="MyDefaultButtonStyle" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textSize">@dimen/size_14sp</item>
+        <item name="android:textColor">@color/mainWhite</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginRight">@dimen/dimens_12dp</item>
+        <item name="android:layout_marginLeft">@dimen/dimens_12dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimens_56dp</item>
+    </style>
+</resources>

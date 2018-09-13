@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View.OnClickListener" />
+
+        <variable
+            name="userActionListener"
+            type="id.gits.gitsmvvmkotlin.mvvm.main.MainItemUserActionListener" />
+
+        <variable
+            name="item"
+            type="id.gits.gitsmvvmkotlin.data.model.Movie" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> userActionListener.onMovieClicked(item)}"
+        android:padding="@dimen/dimens_16dp"
+        android:textSize="@dimen/size_16sp"
+        android:fontFamily="@font/lato_regular"
+        android:text="@{item.title}"
+        tools:text="@string/app_name"/>
+</layout>

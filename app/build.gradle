@@ -1,0 +1,154 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: '../deps.gradle'
+
+android {
+    def versionPropsFile = file('version.properties')
+    Properties versionProps = new Properties()
+
+    if (versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    }
+    else {
+        versionProps['VERSION_CODE']='0'
+    }
+
+    def code = versionProps['VERSION_CODE'].toInteger() + 1.toInteger()
+
+    versionProps['VERSION_CODE']=code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+
+    compileSdkVersion configVersion.sdk
+    defaultConfig {
+        minSdkVersion configVersion.minSdk
+        targetSdkVersion configVersion.sdk
+        versionCode configVersion.code
+        versionName configVersion.name
+        multiDexEnabled true
+        setProperty("archivesBaseName", "PwC-eOptio-v"+ versionName + "#" +code+ "-"+ new Date().format('ddMMyy'))
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    signingConfigs {
+        released {
+            storeFile file("${rootDir}/generalkey.jks")
+            storePassword "12345678"
+            keyAlias "12345678"
+            keyPassword "12345678"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
+        stagging {
+            minifyEnabled false
+            debuggable true
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        production {
+            // For release package name
+            applicationId "com.client.loremipsum.gits"
+            applicationIdSuffix ".production"
+            signingConfig signingConfigs.released
+
+            // Env production server
+            buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/"'
+
+            // Inject app name for release
+            resValue "string", "app_name", "Baso Bandung"
+        }
+
+        development {
+            // For development package name
+            applicationId "com.client.loremipsum.gits"
+            applicationIdSuffix ".development"
+
+            // Env development server
+            buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/"'
+
+            // Inject app name for development
+            resValue "string", "app_name", "Baso Bandung Development"
+        }
+
+        stag {
+            // For stagging package name
+            applicationId "com.client.loremipsum.gits"
+            applicationIdSuffix ".staging"
+
+            // Env staging server
+            buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/"'
+
+            // Inject app name for stagging
+            resValue "string", "app_name", "Baso Bandung Staging"
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    // Google support
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.support
+    implementation supportDependencies.design
+    implementation supportDependencies.recyclerView
+    implementation supportDependencies.cardView
+    implementation supportDependencies.constraintLayout
+    implementation supportDependencies.kotlin
+
+    // Arch Components
+    implementation googleLibraries.archRoomRuntime
+    implementation googleLibraries.archLcExt
+    implementation googleLibraries.archLcJava
+
+    annotationProcessor googleLibraries.archRoomComp
+
+    kapt googleLibraries.archRoomComp
+
+    // Network n' debugging
+    implementation libraries.stetho
+    implementation libraries.retrofit
+    implementation libraries.retrofitRx2
+    implementation libraries.okhttp
+    implementation libraries.okhttpLogging
+
+    // Async
+    implementation libraries.rxAndroid
+    implementation libraries.rxJava
+
+    // Utils
+    implementation libraries.glide
+    implementation libraries.retrofitGson
+
+    kapt googleLibraries.dataBinding
+    kapt libraries.glideCompiler
+
+    annotationProcessor libraries.glideCompiler
+
+    // Unit Test
+    testImplementation testLibraries.junit
+    testImplementation testLibraries.mockito
+}
