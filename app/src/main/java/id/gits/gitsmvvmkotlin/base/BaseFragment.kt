@@ -9,7 +9,11 @@ import android.support.v4.app.Fragment
 
 open class BaseFragment : Fragment() {
 
+    lateinit var mActivity: BaseActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mActivity = (activity as BaseActivity)
     }
 }

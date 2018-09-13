@@ -151,7 +151,7 @@ class GitsHelper {
                 context.sendBroadcast(scanIntent)
             } else {
                 context.sendBroadcast(Intent(Intent.ACTION_MEDIA_MOUNTED,
-                        Uri.parse("file://mnt/sdcard/" + Environment
+                        Uri.parse(Const.SDCARD_URI_PATH + Environment
                                 .getExternalStorageDirectory())))
             }
         }
@@ -280,6 +280,7 @@ class GitsHelper {
         const val APP_FOLDER_DEFAULT = "APP_FILE_DIRECTORY"
         const val MESSAGE_SUCCESS_IMAGE_SAVE = "Image saved successfully"
         const val MESSAGE_FAILED_IMAGE_SAVE = "Image failed to save"
+        const val SDCARD_URI_PATH = "file://mnt/sdcard/"
 
         // Server side constanta
         const val SERVER_CODE_404 = 404

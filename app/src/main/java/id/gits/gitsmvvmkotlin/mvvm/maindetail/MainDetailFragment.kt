@@ -16,7 +16,6 @@ import id.co.gits.gitsdriver.utils.GlideApp
 import id.gits.gitsmvvmkotlin.databinding.MainDetailFragmentBinding
 import id.gits.gitsmvvmkotlin.util.putArgs
 
-
 class MainDetailFragment : Fragment() {
 
     private lateinit var viewBinding: MainDetailFragmentBinding
@@ -62,13 +61,17 @@ class MainDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMainDetailViewModel()
+
+        getMoviesById(arguments?.getInt(GitsHelper.Const.ARGUMENT_MOVIE_ID)
+                ?: GitsHelper.Const.NUMBER_DEFAULT)
     }
 
     private fun setupMainDetailViewModel() {
         viewModel = viewBinding.viewModel!!
+    }
 
-        viewModel.getMovieById(arguments?.getInt(GitsHelper.Const.ARGUMENT_MOVIE_ID)
-                ?: GitsHelper.Const.NUMBER_DEFAULT)
+    private fun getMoviesById(movieId: Int) {
+        viewModel.getMovieById(movieId)
     }
 
     companion object {

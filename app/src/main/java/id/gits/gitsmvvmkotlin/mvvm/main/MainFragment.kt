@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.gits.gitsmvvmkotlin.base.BaseFragment
-import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainFragmentBinding
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -22,6 +21,7 @@ class MainFragment : BaseFragment() {
         viewBinding = MainFragmentBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as MainActivity).obtainViewModel().apply {
                 // Observer view model here
+
             }
         }
 
