@@ -3,8 +3,11 @@ package id.co.gits.gitsdriver.utils
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Typeface
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -91,6 +94,15 @@ class GitsHelper {
     }
 
     object Func {
+        fun isNetworkAvailable(context: Context): Boolean? {
+            var isConnected: Boolean? = false // Initial Value
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+            if (activeNetwork != null && activeNetwork.isConnected)
+                isConnected = true
+            return isConnected
+        }
+
         fun TAG(nameTag: String) = nameTag
 
         fun encryptionText(message: String) = StringEncryptionTools().encryptText(message)
@@ -249,6 +261,22 @@ class GitsHelper {
             initList = Gson().fromJson<List<T>>(jsonString, collectionType)
 
             return initList
+        }
+    }
+
+    object Navigator {
+        fun openAppWithPackageName(context: Context, packageManager: PackageManager, packageName: String) {
+            val launchIntent = packageManager.getLaunchIntentForPackage(packageName.trim())
+            context.startActivity(launchIntent)
+        }
+
+        fun openAppWithSpecificClassName(context: Context, packageName: String,
+                                         fullPackageClassName: String) {
+            val launchIntent = Intent(Intent.ACTION_MAIN)
+
+            launchIntent.setClassName(packageName, fullPackageClassName)
+
+            context.startActivity(launchIntent)
         }
     }
 
