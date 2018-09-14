@@ -10,14 +10,13 @@ android {
 
     if (versionPropsFile.canRead()) {
         versionProps.load(new FileInputStream(versionPropsFile))
-    }
-    else {
-        versionProps['VERSION_CODE']='0'
+    } else {
+        versionProps['VERSION_CODE'] = '0'
     }
 
     def code = versionProps['VERSION_CODE'].toInteger() + 1.toInteger()
 
-    versionProps['VERSION_CODE']=code.toString()
+    versionProps['VERSION_CODE'] = code.toString()
     versionProps.store(versionPropsFile.newWriter(), null)
 
     compileSdkVersion configVersion.sdk
@@ -27,7 +26,8 @@ android {
         versionCode configVersion.code
         versionName configVersion.name
         multiDexEnabled true
-        setProperty("archivesBaseName", "PwC-eOptio-v"+ versionName + "#" +code+ "-"+ new Date().format('ddMMyy'))
+        setProperty("archivesBaseName", "Apk name" + versionName + "#" + code + "-"
+                + new Date().format('ddMMyy'))
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -83,7 +83,6 @@ android {
             // Inject app name for release
             resValue "string", "app_name", "Baso Bandung"
         }
-
         development {
             // For development package name
             applicationId "com.client.loremipsum.gits"
@@ -95,7 +94,6 @@ android {
             // Inject app name for development
             resValue "string", "app_name", "Baso Bandung Development"
         }
-
         stag {
             // For stagging package name
             applicationId "com.client.loremipsum.gits"

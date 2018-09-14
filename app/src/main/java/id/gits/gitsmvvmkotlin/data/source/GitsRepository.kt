@@ -29,12 +29,24 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
 
     override fun getMovieById(movieId: Int, callback: GitsDataSource.GetMoviesByIdCallback) {
         localDataSource.getMovieById(movieId, object : GitsDataSource.GetMoviesByIdCallback {
-            override fun onMovieLoaded(movie: Movie) {
-                callback.onMovieLoaded(movie)
+            override fun onShowProgressDialog() {
+                callback.onShowProgressDialog()
             }
 
-            override fun onError(errorMessage: String?) {
-                callback.onError(errorMessage)
+            override fun onHideProgressDialog() {
+                callback.onHideProgressDialog()
+            }
+
+            override fun onSuccess(data: Movie) {
+                callback.onSuccess(data)
+            }
+
+            override fun onFinish() {
+                callback.onFinish()
+            }
+
+            override fun onFailed(statusCode: Int, errorMessage: String) {
+                callback.onFailed(statusCode, errorMessage)
             }
         })
     }
@@ -49,19 +61,17 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
                 callback.onHideProgressDialog()
             }
 
-            override fun onSuccess(movies: List<Movie>) {
-                if (movies.isNotEmpty()) {
-                    var j = 0
+            override fun onSuccess(data: List<Movie>) {
+                if (data.isNotEmpty()) {
 
-                    for (i in 0 until movies.size) {
-                        j = i
+                    for (i in 0 until data.size) {
 
-                        localDataSource.saveMovie(Movie(movies[i].vote_count, movies[i].id, movies[i].isVideo,
-                                movies[i].vote_average, movies[i].title, movies[i].popularity, movies[i].poster_path,
-                                movies[i].original_language, movies[i].original_title, movies[i].backdrop_path,
-                                movies[i].isAdult, movies[i].overview, movies[i].release_date))
+                        localDataSource.saveMovie(Movie(data[i].vote_count, data[i].id, data[i].isVideo,
+                                data[i].vote_average, data[i].title, data[i].popularity, data[i].poster_path,
+                                data[i].original_language, data[i].original_title, data[i].backdrop_path,
+                                data[i].isAdult, data[i].overview, data[i].release_date))
 
-                        if (j == movies.size - 1) {
+                        if (i == data.size - 1) {
                             localDataSource.getMovies(object : GitsDataSource.GetMoviesCallback {
                                 override fun onShowProgressDialog() {
 
@@ -105,7 +115,7 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
         /**
          * Returns the single instance of this class, creating it if necessary.
 
-         * @param gitsRemoteDataSourcethe backend data source
+         * @param gitsRemoteDataSource backend data source
          * *
          * @return the [GitsRepository] instance
          */

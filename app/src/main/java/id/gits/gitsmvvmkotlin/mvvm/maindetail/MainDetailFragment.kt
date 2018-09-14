@@ -25,7 +25,12 @@ class MainDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         viewBinding = MainDetailFragmentBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as MainDetailActivity).obtainViewModel().apply {
-                movieImageBackdropUrl.observe(this@MainDetailFragment, Observer { imageUrl ->
+                eventGlobalMessage.observe(this@MainDetailFragment, Observer { message ->
+                    GitsHelper.View.showSnackbarDefault(viewBinding.root, message
+                            ?: GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT,
+                            GitsHelper.Const.SNACKBAR_TIMER_SHOWING_DEFAULT)
+                })
+                movieImagePosterUrl.observe(this@MainDetailFragment, Observer { imageUrl ->
                     // Sample create image file from URL n' save it into memory
                     GlideApp.with(this@MainDetailFragment)
                             .asBitmap()
@@ -53,6 +58,11 @@ class MainDetailFragment : Fragment() {
                             .submit()
                 })
             }
+        }
+
+        viewBinding.let {
+            it.viewModel = viewBinding.viewModel
+            it.setLifecycleOwner(this@MainDetailFragment)
         }
 
         return viewBinding.root

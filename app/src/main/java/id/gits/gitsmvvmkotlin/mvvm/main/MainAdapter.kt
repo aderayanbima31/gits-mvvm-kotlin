@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import id.co.gits.gitsdriver.utils.GitsBindableAdapter
+import id.gits.gitsmvvmkotlin.BR
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainItemBinding
 
@@ -34,13 +35,16 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MainItemHolder(MainItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return MainItemHolder(MainItemBinding.inflate(LayoutInflater
+                .from(parent.context), parent, false))
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        (holder as MainItemHolder).mainItemBinding.item = null
-        (holder as MainItemHolder).mainItemBinding.userActionListener = null
-        (holder as MainItemHolder).mainItemBinding.executePendingBindings()
+        (holder as MainItemHolder).apply {
+            mainItemBinding.setVariable(BR.item, null)
+            mainItemBinding.setVariable(BR.userActionListener, null)
+            mainItemBinding.executePendingBindings()
+        }
 
         super.onViewRecycled(holder)
     }
@@ -51,8 +55,8 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
             RecyclerView.ViewHolder(mainItemBinding.root) {
 
         fun bindItem(movie: Movie, userActionListener: MainItemUserActionListener) {
-            mainItemBinding.item = movie
-            mainItemBinding.userActionListener = userActionListener
+            mainItemBinding.setVariable(BR.item, movie)
+            mainItemBinding.setVariable(BR.userActionListener, userActionListener)
             mainItemBinding.executePendingBindings()
         }
     }

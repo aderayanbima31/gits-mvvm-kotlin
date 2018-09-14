@@ -11,21 +11,27 @@
             type="id.gits.gitsmvvmkotlin.mvvm.main.MainViewModel" />
     </data>
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_main"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:orientationList="@{safeUnbox(viewModel.verticalList)}"
-            app:recyclerData="@{viewModel.movieListLive}" />
+            android:layout_height="match_parent">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}" />
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:orientationList="@{safeUnbox(viewModel.verticalList)}"
+                app:recyclerData="@{viewModel.movieListLive}" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="@{viewModel.eventShowProgress ? View.VISIBLE : View.GONE}" />
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

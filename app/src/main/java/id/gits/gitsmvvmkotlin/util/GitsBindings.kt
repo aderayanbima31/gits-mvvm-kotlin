@@ -8,6 +8,7 @@ import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
@@ -42,6 +43,7 @@ object GitsBindings {
     @BindingAdapter("app:imageUrl")
     @JvmStatic
     fun setImageUrl(view: ImageView, imageUrl: String?) {
+        Log.d("LOREM ", imageUrl.toString())
         GlideApp.with(view.context)
                 .load(GitsHelper.Const.BASE_IMAGE_URL_MOVIE_DB + imageUrl)
                 .transition(DrawableTransitionOptions.withCrossFade(

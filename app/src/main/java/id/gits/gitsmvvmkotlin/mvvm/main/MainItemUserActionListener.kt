@@ -7,7 +7,5 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
  */
 
 interface MainItemUserActionListener {
-
     fun onMovieClicked(movie: Movie)
-
 }

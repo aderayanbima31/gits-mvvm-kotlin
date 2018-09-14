@@ -90,7 +90,6 @@ class GitsHelper {
             Toast.makeText(context, if (TextUtils.isEmpty(message))
                 GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT else message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     object Func {
@@ -98,8 +97,7 @@ class GitsHelper {
             var isConnected: Boolean? = false // Initial Value
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-            if (activeNetwork != null && activeNetwork.isConnected)
-                isConnected = true
+            if (activeNetwork != null && activeNetwork.isConnected) isConnected = true
             return isConnected
         }
 
@@ -231,7 +229,7 @@ class GitsHelper {
         }
 
         fun dateFormatFromTimeString(date: String, oldFormat: String, newFormat: String, isLocale: Boolean): String {
-            var dateTimeMillis = if (!TextUtils.isEmpty(date)) {
+            val dateTimeMillis = if (!TextUtils.isEmpty(date)) {
                 SimpleDateFormat(oldFormat, isLocaleDate(isLocale)).parse(date).time
             } else {
                 GitsHelper.Const.NUMBER_DEFAULT.toLong()
@@ -255,7 +253,7 @@ class GitsHelper {
         }
 
         fun <T> jsonStringToList(jsonString: String): List<T> {
-            var initList: List<T>
+            val initList: List<T>
 
             val collectionType = object : TypeToken<List<T>>() {}.type
             initList = Gson().fromJson<List<T>>(jsonString, collectionType)
@@ -284,6 +282,7 @@ class GitsHelper {
         // If getting data from intent
         const val EXTRA_MOVIE_ITEM = "EXTRA_MOVIE_ITEM"
         const val EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID"
+        const val EXTRA_GLOBAL = "EXTRA_GLOBAL"
 
         // If getting date from argument
         const val ARGUMENT_MOVIE_ITEM = "ARGUMENT_MOVIE_ITEM"

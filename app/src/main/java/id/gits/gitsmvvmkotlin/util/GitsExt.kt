@@ -4,6 +4,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import id.co.gits.gitsdriver.utils.GitsHelper
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
@@ -43,10 +46,15 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
 }
 
 fun View.setupSnackbar(lifecycleOwner: LifecycleOwner,
-                       snackbarMessageLiveEvent: SingleLiveEvent<Int>, timeLength: Int) {
+                       snackbarMessageLiveEvent: SingleLiveEvent<String>, timeLength: Int) {
     snackbarMessageLiveEvent.observe(lifecycleOwner, Observer {
-        it?.let { showSnackbar(context.getString(it), timeLength) }
+        it?.let { showSnackbar(it, timeLength) }
     })
+}
+
+fun Fragment.startActivity(context: Context, navigationParamGlobal: NavigationParamGlobal) {
+    startActivity(Intent(context, navigationParamGlobal.destinationPage::class.java)
+            .putExtra(GitsHelper.Const.EXTRA_GLOBAL, navigationParamGlobal.param))
 }
 
 inline fun <FRAGMENT : Fragment> FRAGMENT.putArgs(argsBuilder: Bundle.() -> Unit):
