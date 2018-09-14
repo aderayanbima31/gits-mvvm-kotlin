@@ -9,7 +9,7 @@ import java.io.Serializable
  * Created by irfanirawansukirman on 26/01/18.
  */
 
-@Entity(tableName = "movies")
+@Entity(tableName = "movie")
 data class Movie(
         @ColumnInfo(name = "vote_count")
         var vote_count: Int? = null,

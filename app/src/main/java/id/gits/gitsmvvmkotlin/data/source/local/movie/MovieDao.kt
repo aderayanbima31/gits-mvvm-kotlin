@@ -9,10 +9,10 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movies")
+    @Query("SELECT * FROM movie")
     fun getAllMovies(): List<Movie>
 
-    @Query("SELECT * FROM movies WHERE id = :id")
+    @Query("SELECT * FROM movie WHERE id = :id")
     fun getMovieById(id: Int): Movie
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

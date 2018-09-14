@@ -1,6 +1,9 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
+import android.content.Context
+import com.readystatesoftware.chuck.ChuckInterceptor
 import id.gits.gitsmvvmkotlin.BuildConfig
+import id.gits.gitsmvvmkotlin.GitsApplication
 import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import io.reactivex.Observable
@@ -18,32 +21,38 @@ import java.util.concurrent.TimeUnit
 
 interface GitsApiService {
 
-    /**
-     * Do get movie list with this path
-     */
     @GET("3/discover/movie?api_key=1b2f29d43bf2e4f3142530bc6929d341&sort_by=popularity.desc")
     fun getMovies(): Observable<BaseApiModel<List<Movie>>>
 
     companion object Factory {
 
-        fun create(): GitsApiService {
+        val getApiService: GitsApiService by lazy {
             val mLoggingInterceptor = HttpLoggingInterceptor()
             mLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
             val mClient = OkHttpClient.Builder()
                     .addInterceptor(mLoggingInterceptor)
+                    .addInterceptor(ChuckInterceptor(GitsApplication.getContext()))
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .build()
 
-            val mRetrofit = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(mClient) //Todo comment if app release
-                    .build()
+            val mRetrofit = if (BuildConfig.DEBUG) {
+                Retrofit.Builder()
+                        .baseUrl(BuildConfig.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .client(mClient)
+                        .build()
+            } else {
+                Retrofit.Builder()
+                        .baseUrl(BuildConfig.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .build()
+            }
 
-            return mRetrofit.create(GitsApiService::class.java)
+            mRetrofit.create(GitsApiService::class.java)
         }
     }
 }

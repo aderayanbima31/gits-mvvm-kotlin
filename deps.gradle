@@ -28,6 +28,7 @@ ext {
     kotlinVersion = '1.2.51'
     jsoupVersion = '1.11.3'
     tinyDancerVersion = '0.1.2'
+    chuckOkHttpLoggingVersion = '1.1.0'
 
     // APK naming conventions
     formattedDate = new Date().format('ddMMyyyy')
@@ -66,6 +67,8 @@ ext {
             butterKnifeAnnotation   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             okhttp                  : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            chuckOkHttpLogging      : "com.readystatesoftware.chuck:library:${chuckOkHttpLoggingVersion}",
+            chuckOkHttpRealLogging  : "com.readystatesoftware.chuck:library-no-op:${chuckOkHttpLoggingVersion}",
             glide                   : "com.github.bumptech.glide:glide:${glideVersion}",
             glideOkhttp             : "com.github.bumptech.glide:okhttp-integration:${glideVersion}",
             glideCompiler           : "com.github.bumptech.glide:compiler:${glideVersion}",

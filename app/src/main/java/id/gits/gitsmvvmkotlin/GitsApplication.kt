@@ -12,6 +12,7 @@ class GitsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
 
         // Debug
         if (BuildConfig.DEBUG) {
@@ -22,4 +23,11 @@ class GitsApplication : Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(GitsHelper.SystemLocale.onAttach(base, "en"))
     }
+
+    companion object {
+        lateinit var instance: GitsApplication
+
+        fun getContext(): Context = instance.applicationContext
+    }
+
 }

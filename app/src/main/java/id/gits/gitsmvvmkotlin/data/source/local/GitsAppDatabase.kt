@@ -6,8 +6,11 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.local.movie.MovieDao
+import android.arch.persistence.db.SupportSQLiteDatabase
+import android.arch.persistence.room.migration.Migration
 
-@Database(entities = [(Movie::class)], version = 2)
+
+@Database(entities = [(Movie::class)], version = 3)
 abstract class GitsAppDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
@@ -26,7 +29,14 @@ abstract class GitsAppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
-                        GitsAppDatabase::class.java, "Movies.db")
+                        GitsAppDatabase::class.java, "Movie.db")
+                        .addMigrations(MIGRATION_2_3)
                         .build()
+
+        private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE movie ADD COLUMN last_update INTEGER")
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
+import id.gits.gitsmvvmkotlin.GitsApplication
+import id.gits.gitsmvvmkotlin.base.BaseActivity
 import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
@@ -12,12 +14,9 @@ import io.reactivex.schedulers.Schedulers
 
 object GitsRemoteDataSource : GitsDataSource {
 
-    private val apiService: GitsApiService by lazy {
-        GitsApiService.create()
-    }
-
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
-        apiService.getMovies()
+        GitsApiService.getApiService
+                .getMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { callback.onShowProgressDialog() }

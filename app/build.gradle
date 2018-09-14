@@ -30,6 +30,18 @@ android {
         setProperty("archivesBaseName", "PwC-eOptio-v"+ versionName + "#" +code+ "-"+ new Date().format('ddMMyy'))
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // Export local db schema into json file
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    // Json file database schema address
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
     testOptions {
         unitTests.returnDefaultValues = true
@@ -134,6 +146,8 @@ dependencies {
     implementation libraries.retrofitRx2
     implementation libraries.okhttp
     implementation libraries.okhttpLogging
+
+    debugImplementation libraries.chuckOkHttpLogging
 
     // Async
     implementation libraries.rxAndroid

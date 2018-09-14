@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity
 
 open class BaseActivity : AppCompatActivity() {
 
-    var mActiviy: AppCompatActivity = BaseActivity()
+    lateinit var mActivity: AppCompatActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mActivity = this
     }
 }
