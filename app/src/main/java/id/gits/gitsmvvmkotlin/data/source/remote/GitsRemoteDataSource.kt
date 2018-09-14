@@ -12,10 +12,12 @@ import io.reactivex.schedulers.Schedulers
 
 object GitsRemoteDataSource : GitsDataSource {
 
+    private val apiService: GitsApiService by lazy {
+        GitsApiService.create()
+    }
+
     override fun getMovies(callback: GitsDataSource.GetMoviesCallback) {
-        GitsApiService
-                .create()
-                .getMovies()
+        apiService.getMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { callback.onShowProgressDialog() }
