@@ -1,7 +1,6 @@
 package id.gits.gitsmvvmkotlin.mvvm.main
 
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainFragmentBinding
 import id.gits.gitsmvvmkotlin.mvvm.maindetail.MainDetailActivity
 import id.gits.gitsmvvmkotlin.util.NavigationParamGlobal
-import id.gits.gitsmvvmkotlin.util.startActivity
+import id.gits.gitsmvvmkotlin.util.startActivityFromFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 
 /**
@@ -41,22 +40,16 @@ class MainFragment : BaseFragment(), MainItemUserActionListener {
         return viewBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupMovies()
         setupViewListener()
     }
 
     override fun onMovieClicked(movie: Movie) {
-        // Cara ke 1 jika hanya ada satu param yang dilempar
-        // val intent = Intent(this@MainFragment.context, MainDetailActivity::class.java)
-        // intent.putExtra(GitsHelper.Const.EXTRA_MOVIE_ID, movie.id!!)
-        // startActivity(intent.putExtra("", ""))
-
-        // Cara ke 2 jika data yang dikirim banyak
-        // Convert data params menjadi string dengan menggunakan gson
-        startActivity(context!!, NavigationParamGlobal(MainDetailActivity(), movie.id.toString()))
+        startActivityFromFragment(context!!, NavigationParamGlobal(MainDetailActivity(),
+                GitsHelper.Const.EXTRA_GLOBAL, movie.id.toString()))
     }
 
     private fun setupViewModel() {

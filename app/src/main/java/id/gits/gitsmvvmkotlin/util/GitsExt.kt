@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import id.co.gits.gitsdriver.utils.GitsHelper
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
@@ -26,6 +25,14 @@ import id.co.gits.gitsdriver.utils.GitsHelper
 fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int) {
     supportFragmentManager.transact {
         replace(frameId, fragment)
+    }
+}
+
+fun AppCompatActivity.replaceFragmentInActivityWithBackStack(fragment: Fragment, frameId: Int,
+                                                             TAG: String?) {
+    supportFragmentManager.transact {
+        replace(frameId, fragment)
+        addToBackStack(TAG)
     }
 }
 
@@ -52,9 +59,14 @@ fun View.setupSnackbar(lifecycleOwner: LifecycleOwner,
     })
 }
 
-fun Fragment.startActivity(context: Context, navigationParamGlobal: NavigationParamGlobal) {
+fun Fragment.startActivityFromFragment(context: Context, navigationParamGlobal: NavigationParamGlobal) {
     startActivity(Intent(context, navigationParamGlobal.destinationPage::class.java)
-            .putExtra(GitsHelper.Const.EXTRA_GLOBAL, navigationParamGlobal.param))
+            .putExtra(navigationParamGlobal.key, navigationParamGlobal.param))
+}
+
+fun AppCompatActivity.startActivityFromActivity(context: Context, navigationParamGlobal: NavigationParamGlobal) {
+    startActivity(Intent(context, navigationParamGlobal.destinationPage::class.java)
+            .putExtra(navigationParamGlobal.key, navigationParamGlobal.param))
 }
 
 inline fun <FRAGMENT : Fragment> FRAGMENT.putArgs(argsBuilder: Bundle.() -> Unit):

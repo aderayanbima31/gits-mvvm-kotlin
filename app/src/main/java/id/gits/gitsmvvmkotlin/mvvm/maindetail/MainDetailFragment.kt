@@ -3,7 +3,6 @@ package id.gits.gitsmvvmkotlin.mvvm.maindetail
 import android.arch.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import id.co.gits.gitsdriver.utils.GitsHelper
 import id.co.gits.gitsdriver.utils.GlideApp
+import id.gits.gitsmvvmkotlin.base.BaseFragment
 import id.gits.gitsmvvmkotlin.databinding.MainDetailFragmentBinding
 import id.gits.gitsmvvmkotlin.util.putArgs
 
-class MainDetailFragment : Fragment() {
+class MainDetailFragment : BaseFragment() {
 
     private lateinit var viewBinding: MainDetailFragmentBinding
     private lateinit var viewModel: MainDetailViewModel

@@ -55,9 +55,11 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
             RecyclerView.ViewHolder(mainItemBinding.root) {
 
         fun bindItem(movie: Movie, userActionListener: MainItemUserActionListener) {
-            mainItemBinding.setVariable(BR.item, movie)
-            mainItemBinding.setVariable(BR.userActionListener, userActionListener)
-            mainItemBinding.executePendingBindings()
+            mainItemBinding.apply {
+                setVariable(BR.item, movie)
+                setVariable(BR.userActionListener, userActionListener)
+                executePendingBindings()
+            }
         }
     }
 }
