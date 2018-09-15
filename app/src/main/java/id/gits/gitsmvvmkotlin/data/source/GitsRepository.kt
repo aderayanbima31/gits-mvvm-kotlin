@@ -58,14 +58,12 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
             }
 
             override fun onHideProgressDialog() {
-                callback.onHideProgressDialog()
+
             }
 
             override fun onSuccess(data: List<Movie>) {
                 if (data.isNotEmpty()) {
-
                     for (i in 0 until data.size) {
-
                         localDataSource.saveMovie(Movie(data[i].vote_count, data[i].id, data[i].isVideo,
                                 data[i].vote_average, data[i].title, data[i].popularity, data[i].poster_path,
                                 data[i].original_language, data[i].original_title, data[i].backdrop_path,

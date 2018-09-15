@@ -30,19 +30,13 @@ class MainDetailActivity : BaseActivity() {
                         or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
             }
 
-            val movieId = intent.getStringExtra(GitsHelper.Const.EXTRA_GLOBAL)
+            val params = intent.getStringExtra(GitsHelper.Const.EXTRA_GLOBAL)
 
             if (savedInstanceState == null) {
-                replaceFragmentInActivity(MainDetailFragment.newInstance(movieId.toInt()),
+                replaceFragmentInActivity(MainDetailFragment.newInstance(params.toInt()),
                         R.id.frame_container)
             }
-
-            setupViewModel()
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel = obtainViewModel().apply { }
     }
 
     fun obtainViewModel(): MainDetailViewModel = obtainViewModel(MainDetailViewModel::class.java)

@@ -51,6 +51,7 @@ class GitsLocalDataSource private constructor(private val appExecutors: AppExecu
                 } else {
                     callback.onSuccess(movies)
                 }
+                callback.onHideProgressDialog()
             }
         }
     }
