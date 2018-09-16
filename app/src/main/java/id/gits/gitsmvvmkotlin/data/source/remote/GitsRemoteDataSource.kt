@@ -1,5 +1,6 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
+import com.google.gson.GsonBuilder
 import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource

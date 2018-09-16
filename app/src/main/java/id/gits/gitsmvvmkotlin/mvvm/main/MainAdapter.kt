@@ -3,10 +3,13 @@ package id.gits.gitsmvvmkotlin.mvvm.main
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import id.co.gits.gitsdriver.utils.GitsBindableAdapter
 import id.gits.gitsmvvmkotlin.BR
 import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainItemBinding
+import id.gits.gitsmvvmkotlin.util.GitsNullAdapter
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
@@ -35,8 +38,8 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MainItemHolder(MainItemBinding.inflate(LayoutInflater
-                .from(parent.context), parent, false))
+        return MainItemHolder(MainItemBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false))
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
@@ -56,7 +59,10 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
 
         fun bindItem(movie: Movie, userActionListener: MainItemUserActionListener) {
             mainItemBinding.apply {
-                setVariable(BR.item, movie)
+                val gsonAdapter = GsonBuilder()
+                        .registerTypeAdapter(Movie::class.java, GitsNullAdapter())
+                        .create()
+                setVariable(BR.item, Gson().fromJson(gsonAdapter.toJson(movie), Movie::class.java))
                 setVariable(BR.userActionListener, userActionListener)
                 executePendingBindings()
             }

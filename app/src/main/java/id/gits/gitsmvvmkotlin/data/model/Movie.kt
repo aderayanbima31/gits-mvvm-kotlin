@@ -49,4 +49,4 @@ data class Movie(
 
         @ColumnInfo(name = "release_date")
         var release_date: String? = null
-): Serializable
+) : Serializable

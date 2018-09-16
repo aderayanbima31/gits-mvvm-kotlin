@@ -1,6 +1,5 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
-import android.content.Context
 import com.readystatesoftware.chuck.ChuckInterceptor
 import id.co.gits.gitsdriver.utils.GitsHelper
 import id.gits.gitsmvvmkotlin.BuildConfig
