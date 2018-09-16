@@ -3,6 +3,7 @@ package id.co.gits.gitsdriver.utils
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
@@ -245,6 +246,7 @@ class GitsHelper {
         const val CURRENCY_VALUE_DEFAULT = 0.0
         const val WEBVIEW_TEXT_SIZE_DEFAULT = 15
         const val ENCRYPTION_ALGORITHM_NAME = "Blowfish"
+        const val SHARED_PREFERENCE_NAME_DEFAULT = "GitsIndonesia"
         const val SNACKBAR_TIMER_SHOWING_DEFAULT = 3000
         const val GLIDE_FADE_ANIMATION_TIME_DEFAULT = 600
         const val APP_FOLDER_DEFAULT = "APP_FILE_DIRECTORY"
@@ -350,6 +352,56 @@ class GitsHelper {
             resources.updateConfiguration(configuration, resources.displayMetrics)
 
             return context
+        }
+    }
+
+    object Preference {
+        private const val KEY_NAME: String = Const.SHARED_PREFERENCE_NAME_DEFAULT
+        lateinit var mSharedPreference: SharedPreferences
+
+        /**
+         * Init shared preference
+         */
+        @Deprecated("Use injection and pass pref to repository")
+        fun getSp(mContext: Context): SharedPreferences {
+            mSharedPreference = PreferenceManager.getDefaultSharedPreferences(mContext)
+            mSharedPreference = mContext.getSharedPreferences(KEY_NAME, Context.MODE_PRIVATE)
+            return mSharedPreference
+        }
+
+        /**
+         * Save value preference
+         */
+        @Deprecated("Use injection and pass pref to repository",
+                ReplaceWith("getSp(mContext).edit().putString(key, value).apply()",
+                        "id.co.gits.gitsdriver.utils.GitsHelper.Preference.getSp"))
+        fun savePref(mContext: Context, key: String, value: String) {
+            getSp(mContext).edit().putString(key, Func.encryptionText(value)).apply()
+        }
+
+        /**
+         * Get value preference
+         */
+        @Deprecated("Use injection and pass pref to repository",
+                ReplaceWith("getSp(mContext).getString(key, null)",
+                        "id.gits.antaraqua.util.helper.PrefHelper.getSp"))
+        fun getPref(mContext: Context, key: String): String? {
+            val pref = getSp(mContext).getString(key, "")
+            return if (TextUtils.isEmpty(pref)) {
+                ""
+            } else {
+                Func.decryptionText(pref)
+            }
+        }
+
+        /**
+         * Remove value preference
+         */
+        @Deprecated("Use injection and pass pref to repository",
+                ReplaceWith("getSp(mContext).edit().remove(key)",
+                        "id.gits.antaraqua.util.helper.PrefHelper.getSp"))
+        fun removePref(mContext: Context, key: String) {
+            getSp(mContext).edit().remove(key)
         }
     }
 }
