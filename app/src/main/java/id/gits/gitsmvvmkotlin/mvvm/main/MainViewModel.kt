@@ -6,6 +6,7 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
 import id.gits.gitsmvvmkotlin.data.source.GitsRepository
 import id.gits.gitsmvvmkotlin.util.SingleLiveEvent
+import id.gits.gitsmvvmkotlin.util.UserEnum
 
 /**
  * Created by irfanirawansukirman on 26/01/18.
@@ -39,7 +40,10 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
             }
 
             override fun onSuccess(data: List<Movie>) {
-                movieListLive.postValue(data)
+                movieListLive.apply {
+                    postValue(null)
+                    postValue(data)
+                }
             }
 
             override fun onFinish() {

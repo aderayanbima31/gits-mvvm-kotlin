@@ -11,7 +11,9 @@ import id.gits.gitsmvvmkotlin.data.model.Movie
 import id.gits.gitsmvvmkotlin.databinding.MainFragmentBinding
 import id.gits.gitsmvvmkotlin.mvvm.maindetail.MainDetailActivity
 import id.gits.gitsmvvmkotlin.util.NavigationParamGlobal
-import id.gits.gitsmvvmkotlin.util.startActivityFromFragment
+import id.gits.gitsmvvmkotlin.util.putArgs
+import id.gits.gitsmvvmkotlin.util.showToast
+import id.gits.gitsmvvmkotlin.util.startNewActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
 /**
@@ -48,8 +50,12 @@ class MainFragment : BaseFragment(), MainItemUserActionListener {
     }
 
     override fun onMovieClicked(movie: Movie) {
-        startActivityFromFragment(context!!, NavigationParamGlobal(MainDetailActivity(),
-                GitsHelper.Const.EXTRA_GLOBAL, movie.id.toString()))
+        (activity as MainActivity).apply {
+            showToast(context!!, movie.original_title!!)
+            startNewActivity(context!!,
+                    NavigationParamGlobal(MainDetailActivity(), GitsHelper.Const.EXTRA_GLOBAL,
+                            movie.id.toString()))
+        }
     }
 
     private fun setupViewModel() {
@@ -64,14 +70,16 @@ class MainFragment : BaseFragment(), MainItemUserActionListener {
 
     private fun setupViewListener() {
         swipe_main.setOnRefreshListener {
-            viewModel.start()
-            swipe_main.isRefreshing = false
+            recycler_main.apply {
+                adapter!!.notifyItemRangeRemoved(0,
+                        adapter!!.itemCount)
+                viewModel.start()
+                swipe_main.isRefreshing = false
+            }
         }
     }
 
     companion object {
-        fun newInstance() = MainFragment().apply {
-
-        }
+        fun newInstance() = MainFragment().putArgs { }
     }
 }

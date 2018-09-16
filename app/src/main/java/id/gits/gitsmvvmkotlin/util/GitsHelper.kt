@@ -5,21 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import id.gits.gitsmvvmkotlin.R
 import id.gits.gitsmvvmkotlin.util.StringEncryptionTools
 import java.io.File
 import java.io.FileNotFoundException
@@ -32,65 +28,6 @@ import java.util.*
 import java.util.regex.Pattern
 
 class GitsHelper {
-
-    object View {
-        fun setCustomFont(view: android.view.View, fontName: String): Typeface = Typeface
-                .createFromAsset(view.context.assets, "fonts/$fontName")
-
-        fun showSnackbarDefault(view: android.view.View, message: String, duration: Int) {
-            val finalMessage = if (TextUtils.isEmpty(message)) {
-                GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT
-            } else {
-                message
-            }
-
-            val finalDuration = if (duration == 0) {
-                GitsHelper.Const.SNACKBAR_TIMER_SHOWING_DEFAULT
-            } else {
-                duration
-            }
-
-            Snackbar.make(view, finalMessage, finalDuration).show()
-        }
-
-        fun showSnackbarWithCustomColor(view: android.view.View, message: String,
-                                        textColor: Int, backgroundColor: Int,
-                                        duration: Int) {
-            val finalMessage = if (TextUtils.isEmpty(message)) {
-                GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT
-            } else {
-                message
-            }
-
-            val finalDuration = if (duration == 0) {
-                GitsHelper.Const.SNACKBAR_TIMER_SHOWING_DEFAULT
-            } else {
-                duration
-            }
-
-            val finalTextColor = if (textColor == 0) {
-                ContextCompat.getColor(view.context, R.color.mainWhite)
-            } else {
-                textColor
-            }
-
-            val finalBackgroundColor = if (textColor == 0) {
-                ContextCompat.getColor(view.context, R.color.greyBackgroundDefault)
-            } else {
-                backgroundColor
-            }
-
-            val snackView = Snackbar.make(view, finalMessage, finalDuration)
-            snackView.setActionTextColor(finalTextColor)
-            snackView.view.setBackgroundColor(finalBackgroundColor)
-            snackView.show()
-        }
-
-        fun showToast(context: Context, message: String) {
-            Toast.makeText(context, if (TextUtils.isEmpty(message))
-                GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT else message, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     object Func {
         fun isNetworkAvailable(context: Context): Boolean? {
@@ -107,7 +44,8 @@ class GitsHelper {
 
         fun decryptionText(encryptionText: String) = StringEncryptionTools().decryptText(encryptionText)
 
-        fun saveBitmapToLocalFile(context: Context, imageBitmap: Bitmap, directoryName: String?) {
+        fun saveBitmapToLocalFile(context: Context, imageBitmap: Bitmap, directoryName: String?,
+                                  showMessageStatus: Boolean) {
             val root = Environment.getExternalStorageDirectory().toString()
 
             val directoryNameDefault = if (TextUtils.isEmpty(directoryName)) {
@@ -152,7 +90,7 @@ class GitsHelper {
                 Const.MESSAGE_FAILED_IMAGE_SAVE
             }
 
-            View.showToast(context, message)
+            if (showMessageStatus) showToast(context, message)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 val scanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
@@ -164,6 +102,11 @@ class GitsHelper {
                         Uri.parse(Const.SDCARD_URI_PATH + Environment
                                 .getExternalStorageDirectory())))
             }
+        }
+
+        fun showToast(context: Context, message: String) {
+            Toast.makeText(context, if (TextUtils.isEmpty(message))
+                GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT else message, Toast.LENGTH_SHORT).show()
         }
 
         fun currencyFormatToRupiah(data: Double): String {

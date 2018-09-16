@@ -6,7 +6,6 @@ import android.databinding.BindingAdapter
 import android.support.v4.text.PrecomputedTextCompat
 import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.AppCompatTextView
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
@@ -17,6 +16,8 @@ import android.widget.TextView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import id.gits.gitsmvvmkotlin.R
+import id.gits.gitsmvvmkotlin.util.horizontalListStyle
+import id.gits.gitsmvvmkotlin.util.verticalListStyle
 
 object GitsBindings {
 
@@ -61,8 +62,9 @@ object GitsBindings {
     @JvmStatic
     fun setClearWebviewContent(webView: WebView, webviewContent: String?, webviewTextSize: Int?) {
         if (webviewContent != null) {
-            webView.loadDataWithBaseURL(null, GitsHelper.Func.setClearWebviewContent(webviewContent),
-                    "text/html", "utf-8", null)
+            webView.loadDataWithBaseURL(null, GitsHelper.Func
+                    .setClearWebviewContent(webviewContent), "text/html",
+                    "utf-8", null)
             webView.settings.javaScriptEnabled = true
             webView.settings.defaultFontSize = if (webviewTextSize == null || webviewTextSize == 0) {
                 GitsHelper.Const.WEBVIEW_TEXT_SIZE_DEFAULT
@@ -74,18 +76,14 @@ object GitsBindings {
 
     @BindingAdapter("app:recyclerData", "app:orientationList")
     @JvmStatic
-    fun <T> setupRecyclerviewDatas(recyclerView: RecyclerView, recyclerData: MutableLiveData<List<T>>, orientationList: Int?) {
+    fun <T> setupRecyclerviewDatas(recyclerView: RecyclerView, recyclerData: MutableLiveData<List<T>>,
+                                   orientationList: Int?) {
         try {
             if (recyclerView.adapter is GitsBindableAdapter<*>) {
-                val layoutManager = LinearLayoutManager(recyclerView.context,
-                        if (orientationList == 1) LinearLayoutManager.HORIZONTAL else
-                            LinearLayoutManager.VERTICAL, false)
-                recyclerView.layoutManager = layoutManager
-                recyclerView.setHasFixedSize(true)
-                recyclerView.setItemViewCacheSize(30)
-                recyclerView.isDrawingCacheEnabled = true
-                recyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-                (recyclerView.adapter as GitsBindableAdapter<T>).setRecyclerViewData(recyclerData.value!!)
+                if (orientationList == 1) recyclerView.horizontalListStyle() else
+                    recyclerView.verticalListStyle()
+                (recyclerView.adapter as GitsBindableAdapter<T>)
+                        .setRecyclerViewData(recyclerData.value!!)
             }
         } catch (e: Exception) {
             e.printStackTrace()

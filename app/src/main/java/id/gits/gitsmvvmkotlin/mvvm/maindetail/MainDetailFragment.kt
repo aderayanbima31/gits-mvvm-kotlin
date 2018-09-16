@@ -15,6 +15,7 @@ import id.co.gits.gitsdriver.utils.GlideApp
 import id.gits.gitsmvvmkotlin.base.BaseFragment
 import id.gits.gitsmvvmkotlin.databinding.MainDetailFragmentBinding
 import id.gits.gitsmvvmkotlin.util.putArgs
+import id.gits.gitsmvvmkotlin.util.showSnackbarDefault
 
 class MainDetailFragment : BaseFragment() {
 
@@ -26,7 +27,7 @@ class MainDetailFragment : BaseFragment() {
         viewBinding = MainDetailFragmentBinding.inflate(inflater, container, false).apply {
             viewModel = (activity as MainDetailActivity).obtainViewModel().apply {
                 eventGlobalMessage.observe(this@MainDetailFragment, Observer { message ->
-                    GitsHelper.View.showSnackbarDefault(viewBinding.root, message
+                    viewBinding.root.showSnackbarDefault(viewBinding.root, message
                             ?: GitsHelper.Const.SERVER_ERROR_MESSAGE_DEFAULT,
                             GitsHelper.Const.SNACKBAR_TIMER_SHOWING_DEFAULT)
                 })
@@ -48,7 +49,7 @@ class MainDetailFragment : BaseFragment() {
                                         Boolean {
                                     return if (resource != null) {
                                         GitsHelper.Func.saveBitmapToLocalFile(context!!, resource,
-                                                null)
+                                                null, true)
                                         true
                                     } else {
                                         false
