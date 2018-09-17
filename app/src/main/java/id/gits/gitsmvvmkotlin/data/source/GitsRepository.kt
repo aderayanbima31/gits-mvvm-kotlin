@@ -45,7 +45,7 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
                 callback.onFinish()
             }
 
-            override fun onFailed(statusCode: Int, errorMessage: String) {
+            override fun onFailed(statusCode: Int, errorMessage: String?) {
                 callback.onFailed(statusCode, errorMessage)
             }
         })
@@ -87,7 +87,7 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
                                     callback.onFinish()
                                 }
 
-                                override fun onFailed(statusCode: Int, errorMessage: String) {
+                                override fun onFailed(statusCode: Int, errorMessage: String?) {
                                     callback.onFailed(statusCode, errorMessage)
                                 }
                             })
@@ -100,7 +100,7 @@ open class GitsRepository(val remoteDataSource: GitsRemoteDataSource,
                 callback.onFinish()
             }
 
-            override fun onFailed(statusCode: Int, errorMessage: String) {
+            override fun onFailed(statusCode: Int, errorMessage: String?) {
                 callback.onFailed(statusCode, errorMessage)
             }
         })

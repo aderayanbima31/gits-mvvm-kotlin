@@ -41,7 +41,7 @@ class MainDetailViewModel(context: Application,
 
             }
 
-            override fun onFailed(statusCode: Int, errorMessage: String) {
+            override fun onFailed(statusCode: Int, errorMessage: String?) {
                 eventGlobalMessage.value = errorMessage
             }
         })

@@ -10,6 +10,6 @@ interface BaseDataSource {
         fun onHideProgressDialog()
         fun onSuccess(data: T)
         fun onFinish()
-        fun onFailed(statusCode: Int, errorMessage: String)
+        fun onFailed(statusCode: Int, errorMessage: String? = "")
     }
 }

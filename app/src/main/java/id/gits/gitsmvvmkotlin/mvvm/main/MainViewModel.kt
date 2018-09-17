@@ -50,7 +50,7 @@ class MainViewModel(context: Application, private val gitsRepository: GitsReposi
 
             }
 
-            override fun onFailed(statusCode: Int, errorMessage: String) {
+            override fun onFailed(statusCode: Int, errorMessage: String?) {
                 snackBarMessageRemote.value = errorMessage
             }
         })

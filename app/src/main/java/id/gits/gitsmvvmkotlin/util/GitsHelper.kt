@@ -31,6 +31,7 @@ import java.util.regex.Pattern
 class GitsHelper {
 
     object Func {
+
         fun isNetworkAvailable(context: Context): Boolean? {
             var isConnected: Boolean? = false // Initial Value
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class BaseApiModel<T>(
-        @SerializedName("code") val code: Int? = null,
-        @SerializedName("message") val message: String? = null,
+        @SerializedName("code") val code: Int,
+        @SerializedName("message") val message: String,
         @SerializedName("data") val data: T? = null,
 
         // Remove code below if project is running

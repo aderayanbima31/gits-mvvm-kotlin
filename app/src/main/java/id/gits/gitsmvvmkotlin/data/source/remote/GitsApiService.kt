@@ -1,6 +1,5 @@
 package id.gits.gitsmvvmkotlin.data.source.remote
 
-import com.readystatesoftware.chuck.ChuckInterceptor
 import id.co.gits.gitsdriver.utils.GitsHelper
 import id.gits.gitsmvvmkotlin.BuildConfig
 import id.gits.gitsmvvmkotlin.GitsApplication
@@ -32,9 +31,7 @@ interface GitsApiService {
             mLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
             val cacheSize = (5 * 1024 * 1024).toLong()
-
             val appCache = Cache(GitsApplication.getContext().cacheDir, cacheSize)
-
             val mClient = if (BuildConfig.DEBUG) {
                 OkHttpClient.Builder()
                         .cache(appCache)
@@ -72,7 +69,7 @@ interface GitsApiService {
                             chain.proceed(request)
                         }
                         .addInterceptor(mLoggingInterceptor)
-                        .addInterceptor(ChuckInterceptor(GitsApplication.getContext()))
+//                        .addInterceptor(ChuckInterceptor(GitsApplication.getContext()))
                         .readTimeout(30, TimeUnit.SECONDS)
                         .connectTimeout(30, TimeUnit.SECONDS)
                         .build()

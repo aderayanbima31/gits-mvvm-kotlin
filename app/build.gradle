@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 apply from: '../deps.gradle'
 
 android {
@@ -26,10 +27,13 @@ android {
         versionCode configVersion.code
         versionName configVersion.name
         multiDexEnabled true
-        setProperty("archivesBaseName", "Apk name" + versionName + "#" + code + "-"
+        setProperty("archivesBaseName", "GITS Indonesia" + versionName + "#" + code + "-"
                 + new Date().format('ddMMyy'))
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resConfigs "en", "id"
+        vectorDrawables.useSupportLibrary = true
 
         // Export local db schema into json file
         javaCompileOptions {
@@ -58,7 +62,12 @@ android {
         release {
             minifyEnabled true
             debuggable false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            jniDebuggable false
+            renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
         }
         debug {
             minifyEnabled false
@@ -154,6 +163,8 @@ dependencies {
     // Utils
     implementation libraries.glide
     implementation libraries.retrofitGson
+
+    implementation googleLibraries.crashlytics
 
     kapt googleLibraries.dataBinding
     kapt libraries.glideCompiler

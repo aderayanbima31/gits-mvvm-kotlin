@@ -47,7 +47,6 @@ abstract class ApiCallback<M> : Observer<M> {
                 }
 
                 when (code) {
-
                     504 -> {
                         msg = baseDao?.message ?: "Error Response"
                     }
@@ -63,13 +62,13 @@ abstract class ApiCallback<M> : Observer<M> {
                 }
 
                 onFailure(code, msg)
-
             }
 
             is UnknownHostException -> onFailure(-1, "Telah terjadi kesalahan ketika koneksi ke server: ${e.message}")
             is SocketTimeoutException -> onFailure(-1, "Telah terjadi kesalahan ketika koneksi ke server: ${e.message}")
             else -> onFailure(-1, e.message ?: "Unknown error occured")
         }
+
         onFinish()
     }
 }

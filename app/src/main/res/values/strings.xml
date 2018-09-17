@@ -1,6 +1,9 @@
-<resources>
+<resources tools:shrinkMode="strict" xmlns:tools="http://schemas.android.com/tools">
     <string name="data_is_empty">Data is empty</string>
     <string name="please_wait">Please wait...</string>
     <string name="title_main_vote">vote</string>
     <string name="title_main_description">Deskripsi</string>
+
+    <!-- API KEY -->
+    <string name="fabric_api_key">261e27dc5baae72193fd64e849234ca4bcf6971d</string>
 </resources>

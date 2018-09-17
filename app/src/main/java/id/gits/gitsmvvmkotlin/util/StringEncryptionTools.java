@@ -20,7 +20,7 @@ public class StringEncryptionTools {
         init();
     }
 
-    public void init() throws Exception {
+    private void init() throws Exception {
         KeyGenerator keygenerator = KeyGenerator.getInstance(GitsHelper.Const.ENCRYPTION_ALGORITHM_NAME);
         SecretKey secretkey = keygenerator.generateKey();
 
@@ -31,20 +31,18 @@ public class StringEncryptionTools {
     public String encryptText(String message) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] encrypted = cipher.doFinal(message.getBytes());
-        String encryptedString = bytesToHex(encrypted);
 
-        return encryptedString;
+        return bytesToHex(encrypted);
     }
 
     public String decryptText(String encryptedString) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(hexToBytes(encryptedString));
-        String decryptedString = bytesToHex(decrypted);
 
-        return decryptedString;
+        return bytesToHex(decrypted);
     }
 
-    public static byte[] hexToBytes(String str) {
+    private static byte[] hexToBytes(String str) {
         if (str == null) {
             return null;
         } else if (str.length() < 2) {
@@ -59,19 +57,18 @@ public class StringEncryptionTools {
         }
     }
 
-    public static String bytesToHex(byte[] data) {
+    private static String bytesToHex(byte[] data) {
         if (data == null) {
             return null;
         } else {
-            int len = data.length;
-            String str = "";
-            for (int i = 0; i < len; i++) {
-                if ((data[i] & 0xFF) < 16)
-                    str = str + "0" + Integer.toHexString(data[i] & 0xFF);
+            StringBuilder str = new StringBuilder();
+            for (byte aData : data) {
+                if ((aData & 0xFF) < 16)
+                    str.append("0").append(Integer.toHexString(aData & 0xFF));
                 else
-                    str = str + Integer.toHexString(data[i] & 0xFF);
+                    str.append(Integer.toHexString(aData & 0xFF));
             }
-            return str.toUpperCase();
+            return str.toString().toUpperCase();
         }
     }
 

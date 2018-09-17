@@ -59,10 +59,7 @@ class MainAdapter(private var mainViewModel: MainViewModel) :
 
         fun bindItem(movie: Movie, userActionListener: MainItemUserActionListener) {
             mainItemBinding.apply {
-                val gsonAdapter = GsonBuilder()
-                        .registerTypeAdapter(Movie::class.java, GitsNullAdapter())
-                        .create()
-                setVariable(BR.item, Gson().fromJson(gsonAdapter.toJson(movie), Movie::class.java))
+                setVariable(BR.item, movie)
                 setVariable(BR.userActionListener, userActionListener)
                 executePendingBindings()
             }
