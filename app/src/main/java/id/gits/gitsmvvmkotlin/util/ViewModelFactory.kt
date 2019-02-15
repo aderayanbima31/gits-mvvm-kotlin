@@ -5,6 +5,7 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import id.gits.gitsmvvmkotlin.data.source.GitsRepository
+import id.gits.gitsmvvmkotlin.mvvm.gitsclass.listbencana.BencanaViewModel
 import id.gits.gitsmvvmkotlin.mvvm.main.MainViewModel
 import id.gits.gitsmvvmkotlin.mvvm.maindetail.MainDetailViewModel
 
@@ -25,6 +26,8 @@ class ViewModelFactory private constructor(
                         MainViewModel(mApplication, gitsRepository)
                     isAssignableFrom(MainDetailViewModel::class.java) ->
                         MainDetailViewModel(mApplication, gitsRepository)
+                    isAssignableFrom(BencanaViewModel::class.java) ->
+                        BencanaViewModel(mApplication, gitsRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

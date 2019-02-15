@@ -11,4 +11,7 @@
     <color name="blueSky">#BBDEFB</color>
 
     <color name="yellowTags">#FECE7A</color>
+    <color name="color_orange">#ED7D31</color>
+    <color name="color_red">#CC0000</color>
+    <color name="color_green">#219653</color>
 </resources>

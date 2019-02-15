@@ -41,7 +41,7 @@ ext {
             code  : 100000010,
             name  : "1.2.0",
             sdk   : 28,
-            minSdk: 16
+            minSdk: 21
     ]
 
     supportDependencies = [

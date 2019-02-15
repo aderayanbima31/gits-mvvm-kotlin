@@ -1,4 +1,4 @@
-<resources tools:shrinkMode="strict" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:shrinkMode="strict">
     <string name="data_is_empty">Data is empty</string>
     <string name="please_wait">Please wait...</string>
     <string name="title_main_vote">vote</string>

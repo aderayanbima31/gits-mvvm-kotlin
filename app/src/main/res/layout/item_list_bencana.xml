@@ -1,0 +1,176 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="mData"
+            type="id.gits.gitsmvvmkotlin.mvvm.gitsclass.listbencana.BencanaModel" />
+
+        <variable
+            name="mListener"
+            type="id.gits.gitsmvvmkotlin.mvvm.gitsclass.listbencana.BencanaUserActionListener" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/notifCrisisResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens_8dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/mainWhite"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimens_8dp">
+
+
+            <ImageView
+                android:layout_width="@dimen/dimens_40dp"
+                android:layout_height="@dimen/dimens_40dp"
+                android:layout_margin="@dimen/dimens_8dp"
+                tools:src="@drawable/ic_gempa"
+                android:src="@{mData.id_bencana == 1 ? @drawable/ic_gunung_meletus : mData.id_bencana == 2 ? @drawable/ic_banjir : @drawable/ic_gempa }"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{mData.nama_bencana}"
+                    android:textColor="#505050"
+                    android:textSize="@dimen/size_18sp"
+                    android:textStyle="bold"
+                    tools:text="Gempa Donggala" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_disasterLoc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxEms="10"
+                        android:singleLine="true"
+                        android:text="@{mData.lokasi_bencana}"
+                        android:textColor="@color/greyBackgroundDefault"
+                        android:textSize="@dimen/size_12sp"
+                        tools:text="Sulawesi Tenggara, ID" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimens_8dp"
+                        android:src="@drawable/ic_disaster_elips" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{mData.tanggal_bencana}"
+                        android:textColor="@color/greyBackgroundDefault"
+                        android:textSize="@dimen/size_12sp"
+                        tools:text="2 May 2018" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimens_8dp"
+                        android:layout_marginTop="@dimen/dimens_8dp"
+                        android:text="@{mData.status_bencana}"
+                        android:textSize="@dimen/size_12sp"
+                        android:textStyle="bold"
+                        tools:text="Status Awas"
+                        android:textColor="@color/color_red" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/dimens_8dp"
+                        android:background="#ECECEC" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimens_8dp"
+                        android:text="Keterangan"
+                        android:textColor="#505050"
+                        android:textSize="@dimen/size_12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jl Sunter No.351 Jakarta Selatan"
+                        android:textSize="11sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/rounded_red_crisis_response"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/dimens_12dp"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="11sp"
+                            android:text="7.0 SR" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</layout>
