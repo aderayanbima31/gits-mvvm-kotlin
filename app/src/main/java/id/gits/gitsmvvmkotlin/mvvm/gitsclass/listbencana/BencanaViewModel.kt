@@ -22,9 +22,9 @@ class BencanaViewModel(context: Application, gitsRepository: GitsRepository) : A
 
     fun loadData() {
         ListBencana.clear()
-        ListBencana.add(BencanaModel(1,"Gunung Meletus", "Yogyakarta, ID", "22 Des 2018", "Status Awas"))
-        ListBencana.add(BencanaModel(2,"Banjir", "Jakarta, ID", "2 Mei 2018", "Status Siaga"))
-        ListBencana.add(BencanaModel(3,"Gempa", "Donggala, ID", "17 Sep 2018", "Status Waspada"))
+        ListBencana.add(BencanaModel("Gunung Meletus", "Yogyakarta, ID", "22 Des 2018", "Status Awas"))
+        ListBencana.add(BencanaModel("Banjir", "Jakarta, ID", "2 Mei 2018", "Status Siaga"))
+        ListBencana.add(BencanaModel("Gempa", "Donggala, ID", "17 Sep 2018", "Status Waspada"))
     }
 
 }

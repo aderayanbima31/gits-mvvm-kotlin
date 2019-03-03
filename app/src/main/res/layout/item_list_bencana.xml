@@ -36,8 +36,7 @@
                 android:layout_width="@dimen/dimens_40dp"
                 android:layout_height="@dimen/dimens_40dp"
                 android:layout_margin="@dimen/dimens_8dp"
-                tools:src="@drawable/ic_gempa"
-                android:src="@{mData.id_bencana == 1 ? @drawable/ic_gunung_meletus : mData.id_bencana == 2 ? @drawable/ic_banjir : @drawable/ic_gempa }"/>
+                android:src="@drawable/ic_gempa"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
