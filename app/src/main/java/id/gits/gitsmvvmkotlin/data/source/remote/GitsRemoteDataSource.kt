@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import id.gits.gitsmvvmkotlin.base.BaseApiModel
 import id.gits.gitsmvvmkotlin.data.model.Movie
+import id.gits.gitsmvvmkotlin.data.model.eventspast.Event
+import id.gits.gitsmvvmkotlin.data.model.eventspast.EventsPastDao
 import id.gits.gitsmvvmkotlin.data.source.GitsDataSource
 import id.gits.gitsmvvmkotlin.util.GitsNullAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,6 +15,8 @@ import io.reactivex.schedulers.Schedulers
  * Created by irfanirawansukirman on 26/01/18.
  */
 object GitsRemoteDataSource : GitsDataSource {
+
+    //private val mEventsPast = ScheduleApiService.createKADE()
 
     private val movieListAdapter: Gson by lazy {
         GsonBuilder()
